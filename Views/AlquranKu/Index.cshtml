@@ -1,0 +1,41 @@
+﻿@model IEnumerable<surat.Models.Surat>
+@{
+    ViewData["Title"] = "Alquran Ku";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@if(string.IsNullOrEmpty(ViewBag.error as string))
+{
+    <h3 class="mb-3 text-center">Surat</h3>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-3" data-toggle="tooltip" data-placement="bottom"
+                 title="@Html.DisplayFor(modelItem => item.NamaLatin) | @Html.DisplayFor(modelItem => item.Arti)">
+                <div class="card">
+                    <div class="card-header text-center bg-dark text-white">
+                        @Html.DisplayFor(modelItem => item.Nomor)
+                    </div>
+                    <div class="card-body border-dark">
+                        <b>@Html.DisplayFor(modelItem => item.NamaLatin)</b>
+                        <h2 class="float-right myfont">@Html.DisplayFor(modelItem => item.Nama)</h2>
+                        <p>@Html.DisplayFor(modelItem => item.Arti)</p>
+                    </div>
+                </div>
+                <a class="mylinkk" onclick="Mylink()" asp-controller="AlquranKu" asp-action="DetailSurat" asp-route-surat="@item.Nomor"></a>
+            </div>
+        }
+    </div>
+}
+
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#loadinggif").hide();
+        });
+       
+    </script>
+}

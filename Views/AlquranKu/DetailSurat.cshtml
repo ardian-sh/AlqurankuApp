@@ -1,0 +1,88 @@
+﻿@model detailsurat.Models.DetailSuratModel
+
+@{
+    ViewData["Title"] = "Surat " + Model.NamaLatin;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.detail = "detail";
+
+    int number = 0;
+}
+<div class="col">
+    <div class="text-center">
+        <h3 class="myfont">@Model.Nama</h3>
+        <h3>Surat @Model.NamaLatin</h3>
+        <p>@Model.Arti - @Model.TempatTurun - @Model.JumlahAyat ayat</p>
+    </div>
+    <p class="text-justify">@Html.Raw(Model.Deskripsi)</p>
+</div>
+@foreach (var item in Model.Ayat)
+{
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-surat-tab-@item.Nomor" data-toggle="tab" href="#nav-surat-@item.Nomor" role="tab" aria-controls="nav-surat-@item.Nomor" aria-selected="true">Surat dan terjemahan</a>
+            <a class="nav-item nav-link" id="nav-tafsir-tab-@item.Nomor" data-toggle="tab" href="#nav-tafsir-@item.Nomor" role="tab" aria-controls="nav-tafsir-@item.Nomor" aria-selected="false">Tafsir</a>
+        </div>
+    </nav>
+    <div class="tab-content myshadoww" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-surat-@item.Nomor" role="tabpanel" aria-labelledby="nav-surat-tab-@item.Nomor">
+            <div class="mb-3 p-3 border-right border-bottom border-left rounded-bottom">
+                <p class="text-right myfont h3" style="line-height:2.4 !important;">
+                    @Html.DisplayFor(modelItem => item.Ar)&nbsp;
+                    {@string.Format("{0}", item.Nomor.Replace('1', '\u06f1')
+                                                     .Replace('2', '\u06f2')
+                                                     .Replace('3', '\u06f3')
+                                                     .Replace('4', '\u06f4')
+                                                     .Replace('5', '\u06f5')
+                                                     .Replace('6', '\u06f6')
+                                                     .Replace('7', '\u06f7')
+                                                     .Replace('8', '\u06f8')
+                                                     .Replace('9', '\u06f9'))}
+                </p>
+                <p>@Html.Raw(item.Tr)</p>
+                <p>@Html.DisplayFor(modelItem => item.Idn)</p>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-tafsir-@item.Nomor" role="tabpanel" aria-labelledby="nav-tafsir-tab-@item.Nomor">
+            <div class="mb-3 p-3 border-right border-bottom border-left rounded-bottom">
+                <p class="text-justify">@Html.Raw(Model.Tafsir[number].Tafsir.Replace("\n\n", "<br/><br/>"))</p>
+            </div>
+        </div>
+    </div>
+
+    number++;
+}
+<br /><br /><br />
+<div class="text-center mt-3" style=" -webkit-overflow-scrolling: touch;">
+    <div class="col-sm-4 col-sm-offset-4">
+        <div class="fixed-bottom" id="myaudio" data-toggle="tooltip" data-placement="top" title="Mainkan suara" style="bottom:0px;">
+            <audio src="@Model.Audio" controls>
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#loadinggif").hide();
+
+            var scrollMaxY = window.scrollMaxY || (document.documentElement.scrollHeight - document.documentElement.clientHeight);
+
+            window.addEventListener('scroll', function () {
+                if (window.scrollY >= (scrollMaxY - 100)) {
+                    $("#myaudio").css("bottom", "80px")
+                }
+                else {
+                    $("#myaudio").css("bottom", "0px")
+                }
+            });
+
+        })
+
+        $('#myaudio').tooltip({ trigger: 'manual' }).tooltip('show');
+      
+    </script>
+
+}
