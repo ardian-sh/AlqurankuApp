@@ -11,6 +11,8 @@ kalian bebas memodif atau menggunakan AlqurankuApp ini, asal jangan diperjual be
 
 Visual Studio 2019+
 
+.NET CORE 5
+
 # :boom: Demo
 
 https://alquranku.herokuapp.com/
